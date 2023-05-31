@@ -1,29 +1,28 @@
 import serial
 import time
-import inspect
 
 class serialConnection:
 
-    def __init__(self):
-        self.puerto = serial.Serial(port = '/dev/ttyUSB0',
-                                    baudrate = 9600,
+    def __init__(self, userport, userbaud):
+        self.puerto = serial.Serial(port = userport,
+                                    baudrate = userbaud,
                                     bytesize = serial.EIGHTBITS,
                                     parity   = serial.PARITY_NONE,
                                     stopbits = serial.STOPBITS_ONE)
     
-    def sendData(self, data):
+    def sendData(self, data, delay = 1):
         try:
             self.puerto.write(data.encode())
-            time.sleep(5)
+            time.sleep(delay)
 
         except serial.SerialException:
             print('El puerto no esta disponible')
 
         except serial.portNotOpenError:
             printl('El puerto no esta abierto')
-            print('Fin del script')
 
-    #def retriveData(self, data):
+    def retriveData(self):
+        return self.puerto.readline()
 
 
     def closeConnection(self):

@@ -1,10 +1,16 @@
 from querys import query_api 
-import serial
+from connection import serialConnection
+import json
 
 def main():
-    print(query_api.get_ticket_info('3D00461E197C').json())
-    lector = serial.Serial('dev/ttyUSB0', 9600)
+    #print(query_api.get_ticket_info('3D00461E197C').json())
+    getConfig()
+    lectorConnection = serialConnection.serialConnection('/dev/ttyUSB0', 9600)
     while(True):
-        print(lector.read())
+        print(lectorConnection.retriveData())
+
+def getConfig():
+    data = open("config.json", "r").read()
+    print(json.load(data))
 
 main()
