@@ -1,16 +1,23 @@
 from querys import query_api 
 from connection import serialConnection
-import json
+from functions.config import getConfig
 
 def main():
-    #print(query_api.get_ticket_info('3D00461E197C').json())
-    getConfig()
-    lectorConnection = serialConnection.serialConnection('/dev/ttyUSB0', 9600)
+    config = getConfig()
+    lectorConnection = serialConnection.serialConnection(config['serial'], config['baudrate'])
+    print(config['serial'], config['baudrate'])
     while(True):
-        print(lectorConnection.retriveData())
+        try:
+            print("Entra")
+            data = lectorConnection.retriveData()
+            print('data: ', str(data))
+            data = str(data).split('/')[9].split('\\')[0]
+            print('ticket: ' + data)
+            validateTicket(query_api.get_ticket_info(data).json())
+        except IndexError:
+            print("Error en la lectura del codigo qr. Por favor acerque de nuevo el codigo")        
 
-def getConfig():
-    data = open("config.json", "r").read()
-    print(json.load(data))
+def validateTicket(ticketData):
+    print(json.dumps(ticketData)['error'])
 
 main()

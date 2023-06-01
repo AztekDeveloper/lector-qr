@@ -2,6 +2,6 @@
     "protocolo" : "http",
     "servidor" : "192.168.1.18",
     "puerto" : "8000",
-    "serial" : "USB0",
+    "serial" : "/dev/ttyUSB0",
     "baudrate" : 9000
 }

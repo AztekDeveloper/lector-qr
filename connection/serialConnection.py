@@ -22,8 +22,8 @@ class serialConnection:
             printl('El puerto no esta abierto')
 
     def retriveData(self):
+        self.puerto.flushOutput()
         return self.puerto.readline()
-
 
     def closeConnection(self):
         self.puerto.close()
